@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY.COMICS.XXX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .sidebar {
+            width: 200px;
+            background-color: #000;
+            padding: 0.8rem;
+            border-left: 1px solid #333;
+        }
+        .sidebar h3 {
+            background-color: #222;
+            color: white;
+            padding: 0.4rem 0.6rem;
+            margin: 0.8rem 0 0.4rem;
+            font-size: 0.9rem;
+            border-radius: 4px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .sidebar ul li {
+            width: 100%;
+            padding: 0.4rem 0;
+            font-size: 0.85rem;
+            color: white;
+        }
+        .sidebar ul li::before {
+            content: "›";
+            color: #e0d9f7;
+            font-weight: bold;
+        }
+        .discord-box {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            border: 1px solid #333;
+        }
+        .discord-box img {
+            width: 50px;
+            margin-bottom: 0.5rem;
+        }
+        .discord-box p {
+            margin: 0.2rem 0;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+        .tags span {
+            background-color: #333;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        .comic-card {
+            transition: transform 0.3s ease;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(123, 44, 191, 0.15);
+            border: 1px solid rgba(123, 44, 191, 0.1);
+        }
+        .comic-card:hover {
+            transform: translateY(-5px);
+        }
+        .category-tab.active {
+            border-bottom: 3px solid #3b82f6;
+            font-weight: 600;
+        }
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .comic-card:hover .blur-overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Sidebar -->
+    <div class="sidebar fixed right-0 top-0 h-full overflow-y-auto z-10">
+        <h3>Más Comics 🔥</h3>
+        <ul>
+            <li>Adventure Time</li>
+            <li>American Dad</li>
+            <li>Comics XXX</li>
+            <li>Ben 10</li>
+            <li>Dragon Ball XXX</li>
+            <li>Drawnsex</li>
+            <li>Padre de Familia</li>
+            <li>Futurama XXX</li>
+            <li>LoL Hentai</li>
+            <li>Los Simpson XXX</li>
+            <li>Mario Bros XXX</li>
+            <li>Naruto Hentai</li>
+            <li>Overwatch Hentai</li>
+            <li>Pokémon XXX</li>
+            <li>Shadbase</li>
+            <li>Teen Titans</li>
+        </ul>
+
+        <h3>Síguenos en Discord</h3>
+        <div class="discord-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
+            <p><strong>¡Únete a la comunidad!</strong></p>
+            <p><a href="#" style="color: white; text-decoration: underline;">Entrar al servidor</a></p>
+        </div>
+
+        <h3>Etiquetas</h3>
+        <div class="tags">
+            <span>Comics</span>
+            <span>XXX</span>
+            <span>Dragon Ball</span>
+            <span>Full Color</span>
+            <span>3D</span>
+            <span>Hentai</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-[#7b2cbf] text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-center items-center">
+                <h1 class="text-3xl font-bold">MY.COMICS.XXX</h1>
+                <div class="hidden md:flex">
+                    <a href="#" class="bg-gradient-to-r from-[#7b2cbf] to-[#9d4edd] hover:from-[#9d4edd] hover:to-[#ff6b6b] px-4 py-2 rounded-lg font-medium transition text-white">Mi Cuenta</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden bg-blue-800 md:hidden">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-2">
+                <a href="#" class="category-link py-2 hover:bg-blue-700 px-3 rounded transition text-white" data-category="home">General</a>
+                <a href="#" class="category-link py-2 hover:bg-blue-700 px-3 rounded transition text-white" data-category="furry">Furry</a>
+                <a href="#" class="category-link py-2 hover:bg-blue-700 px-3 rounded transition text-white" data-category="taboo">Taboo</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 mr-52"> <!-- Adjusted margin for smaller sidebar -->
+        <!-- Ad Space Top -->
+        <div class="bg-gray-800 p-4 rounded-lg mb-8 text-center h-32 flex items-center justify-center">
+            <p class="text-gray-400">Advertisement Space</p>
+        </div>
+        <!-- Category Tabs (Desktop) -->
+        <div class="hidden md:flex border-b border-gray-200 mb-8">
+            <button class="category-tab px-6 py-3 active text-white" data-category="home">General</button>
+            <button class="category-tab px-6 py-3 text-white" data-category="furry">Furry</button>
+            <button class="category-tab px-6 py-3 text-white" data-category="taboo">Taboo</button>
+        </div>
+
+        <!-- Category Title -->
+        <h2 id="category-title" class="text-3xl font-bold text-[#7b2cbf] mb-4">General Comics</h2>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">Culonas</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">MILF</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">Blowjob</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">Anal</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">Lesbian</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">Threesome</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">Gangbang</button>
+            <button class="tag-btn px-3 py-1 bg-[#7b2cbf] text-white rounded-full hover:bg-[#9d4edd] transition">BDSM</button>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="mb-8 bg-[#6a0dad] p-3 rounded-xl max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-2 items-center">
+                <div class="relative flex-grow w-full">
+                    <input type="text" placeholder="Search comics..." class="w-full px-4 py-3 bg-[#8a2be2] text-white rounded-lg focus:outline-none placeholder-[#e0d9f7]">
+                    <i class="fas fa-search absolute right-3 top-3 text-[#e0d9f7]"></i>
+                </div>
+                <button class="px-4 py-3 bg-[#8a2be2] text-white rounded-lg hover:bg-[#9c4dff] transition whitespace-nowrap">
+                    Ordenar por ▼
+                </button>
+                <button class="px-4 py-3 bg-[#8a2be2] text-white rounded-lg hover:bg-[#9c4dff] transition whitespace-nowrap">
+                    Filtrar por ▼
+                </button>
+            </div>
+        </div>
+
+        <!-- Comics Grid -->
+        <div id="comics-container" class="p-4">
+            <!-- Ad Space Middle -->
+            <div class="bg-gray-800 p-4 rounded-lg my-8 text-center h-32 flex items-center justify-center">
+                <p class="text-gray-400">Advertisement Space</p>
+            </div>
+            <!-- Home Comics -->
+            <div id="home-comics" class="comics-category grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <!-- Comic cards will be loaded here by JavaScript -->
+            </div>
+
+            <!-- Furry Comics -->
+            <div id="furry-comics" class="comics-category hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Comic cards will be loaded here by JavaScript -->
+            </div>
+
+            <!-- Incest Comics -->
+            <div id="taboo-comics" class="comics-category hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Comic cards will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Ad Space Bottom -->
+        <div class="bg-gray-800 p-4 rounded-lg my-8 text-center h-32 flex items-center justify-center w-full">
+            <p class="text-gray-400">Advertisement Space</p>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-4 mb-8 flex justify-center">
+            <nav class="inline-flex rounded-md shadow-sm">
+                <a href="#" class="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-[#7b2cbf] hover:bg-[#f5f2f7] text-sm">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <a href="#" class="px-3 py-1 border-t border-b border-gray-300 bg-blue-50 text-blue-700 font-medium text-sm">1</a>
+                <a href="#" class="px-3 py-1 border-t border-b border-gray-300 bg-white text-blue-700 hover:bg-blue-50 text-sm">2</a>
+                <a href="#" class="px-3 py-1 border-t border-b border-gray-300 bg-white text-blue-700 hover:bg-blue-50 text-sm">3</a>
+                <a href="#" class="px-3 py-1 rounded-r-md border border-gray-300 bg-white text-blue-700 hover:bg-blue-50 text-sm">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#240046] text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">MY.COMICS.XXX</h3>
+                    <p class="text-blue-200">La mejor colección de cómics adultos en línea. Disfruta de nuestra selección de contenido de alta calidad.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-[#ff6b6b] hover:text-white hover:underline transition">Home</a></li>
+                        <li><a href="#" class="text-[#ff6b6b] hover:text-white hover:underline transition">Furry</a></li>
+                        <li><a href="#" class="text-[#ff6b6b] hover:text-white hover:underline transition">Taboo</a></li>
+                        <li><a href="#" class="text-[#ff6b6b] hover:text-white hover:underline transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Legal</h3>
+                    <p class="text-blue-200">All characters depicted are 18 years of age or older.</p>
+                    <p class="text-blue-200 mt-2">© 2023 Adult Comics. All rights reserved.</p>
+                </div>
+            </div>
+            <div class="border-t border-blue-700 mt-8 pt-6 text-center text-blue-200">
+                <p>This website contains adult content and is only for viewers 18+</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample comic data
+        const comicsData = {
+            home: [
+                { id: 1, title: "Office Romance", author: "Jane Doe", pages: 24, views: "125k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Office+Romance", tags: ["office", "romance"] },
+                { id: 2, title: "Beach Vacation", author: "John Smith", pages: 18, views: "98k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Beach+Vacation", tags: ["beach", "summer"] },
+                { id: 3, title: "College Days", author: "Mike Johnson", pages: 32, views: "156k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=College+Days", tags: ["college", "young"] },
+                { id: 4, title: "Night Club", author: "Sarah Williams", pages: 22, views: "87k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Night+Club", tags: ["club", "party"] },
+                { id: 5, title: "Train Ride", author: "David Brown", pages: 16, views: "112k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Train+Ride", tags: ["public", "adventure"] },
+                { id: 6, title: "Neighborly Love", author: "Emily Davis", pages: 28, views: "134k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Neighborly+Love", tags: ["neighbors", "romance"] },
+                { id: 7, title: "Gym Session", author: "Robert Wilson", pages: 20, views: "103k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Gym+Session", tags: ["fitness", "sweat"] },
+                { id: 8, title: "Pool Party", author: "Lisa Taylor", pages: 26, views: "141k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Pool+Party", tags: ["summer", "party"] }
+            ],
+            furry: [
+                { id: 9, title: "Wolf Affair", author: "Furry Artist", pages: 30, views: "89k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Wolf+Affair", tags: ["wolf", "anthro"] },
+                { id: 10, title: "Bunny Love", author: "Hoppy Creator", pages: 22, views: "76k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Bunny+Love", tags: ["bunny", "cute"] },
+                { id: 11, title: "Fox & Human", author: "Wild Artist", pages: 28, views: "94k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Fox+%26+Human", tags: ["fox", "hybrid"] },
+                { id: 12, title: "Dragon's Mate", author: "Scaly Creator", pages: 34, views: "112k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Dragon%27s+Mate", tags: ["dragon", "fantasy"] },
+                { id: 13, title: "Cat's Play", author: "Meow Artist", pages: 20, views: "68k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Cat%27s+Play", tags: ["cat", "pet"] },
+                { id: 14, title: "Bear Hug", author: "Grizzly Creator", pages: 26, views: "82k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Bear+Hug", tags: ["bear", "big"] }
+            ],
+            taboo: [
+                { id: 15, title: "Mother's Love", author: "Family Artist", pages: 32, views: "145k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Mother%27s+Love", tags: ["mother", "son", "Taboo"] },
+                { id: 16, title: "Sisterly Bond", author: "Sibling Creator", pages: 28, views: "121k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Sisterly+Bond", tags: ["sister", "brother"] },
+                { id: 17, title: "Aunt's Secret", author: "Relative Artist", pages: 24, views: "98k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Aunt%27s+Secret", tags: ["aunt", "nephew"] },
+                { id: 18, title: "Daddy's Girl", author: "Family Creator", pages: 30, views: "132k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Daddy%27s+Girl", tags: ["father", "daughter"] },
+                { id: 19, title: "Brother's Keeper", author: "Sibling Artist", pages: 26, views: "107k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Brother%27s+Keeper", tags: ["brother", "sister"] },
+                { id: 20, title: "Family Reunion", author: "Relative Creator", pages: 36, views: "156k", image: "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Family+Reunion", tags: ["family", "group"] }
+            ]
+        };
+
+        // Generate comic cards
+        function generateComicCards(category, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            comicsData[category].forEach(comic => {
+                const card = document.createElement('div');
+                card.className = 'comic-card bg-white rounded-lg overflow-hidden shadow-md relative';
+                card.innerHTML = `
+                    <img src="${comic.image}" alt="${comic.title}" class="w-full h-64 object-cover">
+                    <div class="p-3">
+                        <h3 class="font-semibold text-gray-800">${comic.title}</h3>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize all comic categories
+        function initializeComics() {
+            generateComicCards('home', 'home-comics');
+            generateComicCards('furry', 'furry-comics');
+            generateComicCards('taboo', 'taboo-comics');
+        }
+
+        // Switch between categories
+        function switchCategory(category) {
+            // Hide all comic categories
+            document.querySelectorAll('.comics-category').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected category
+            document.getElementById(`${category}-comics`).classList.remove('hidden');
+            
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.category-tab[data-category="${category}"]`).classList.add('active');
+            
+            // Update category title
+            const titles = {
+                'home': 'General',
+                'furry': 'Furry',
+                'taboo': 'Taboo'
+            };
+            document.getElementById('category-title').textContent = titles[category];
+            
+            // Update URL hash
+            window.location.hash = category;
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Category link click handlers
+        document.querySelectorAll('.category-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const category = this.getAttribute('data-category');
+                switchCategory(category);
+                
+                // Close mobile menu if open
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Category tab click handlers
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                switchCategory(category);
+            });
+        });
+
+        // Tag filtering
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tag = this.textContent.toLowerCase();
+                alert(`Filtering by tag: ${tag}`);
+                // Here you would implement actual filtering logic
+                // For now just showing an alert
+            });
+        });
+
+        // Check URL hash on load
+        window.addEventListener('DOMContentLoaded', function() {
+            initializeComics();
+            
+            const hash = window.location.hash.substring(1);
+            if (['home', 'furry', 'taboo'].includes(hash)) {
+                switchCategory(hash);
+            }
+        });
+    </script>
+</body>
+</html>
