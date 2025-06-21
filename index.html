@@ -6,41 +6,8 @@
     <title>MY.COMICS.XXX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        .sidebar {
-            width: 200px;
-            background-color: #000;
-            padding: 0.8rem;
-            border-left: 1px solid #333;
-        }
-        .sidebar h3 {
-            background-color: #222;
-            color: white;
-            padding: 0.4rem 0.6rem;
-            margin: 0.8rem 0 0.4rem;
-            font-size: 0.9rem;
-            border-radius: 4px;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .sidebar ul li {
-            width: 100%;
-            padding: 0.4rem 0;
-            font-size: 0.85rem;
-            color: white;
-        }
-        .sidebar ul li::before {
-            content: "›";
-            color: #e0d9f7;
-            font-weight: bold;
-        }
         .discord-box {
             background-color: #222;
             color: white;
@@ -104,54 +71,15 @@
     </style>
 </head>
 <body class="bg-black">
-    <!-- Sidebar -->
-    <div class="sidebar fixed right-0 top-0 h-full overflow-y-auto z-10">
-        <h3>Más Comics 🔥</h3>
-        <ul>
-            <li>Adventure Time</li>
-            <li>American Dad</li>
-            <li>Comics XXX</li>
-            <li>Ben 10</li>
-            <li>Dragon Ball XXX</li>
-            <li>Drawnsex</li>
-            <li>Padre de Familia</li>
-            <li>Futurama XXX</li>
-            <li>LoL Hentai</li>
-            <li>Los Simpson XXX</li>
-            <li>Mario Bros XXX</li>
-            <li>Naruto Hentai</li>
-            <li>Overwatch Hentai</li>
-            <li>Pokémon XXX</li>
-            <li>Shadbase</li>
-            <li>Teen Titans</li>
-        </ul>
-
-        <h3>Síguenos en Discord</h3>
-        <div class="discord-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
-            <p><strong>¡Únete a la comunidad!</strong></p>
-            <p><a href="#" style="color: white; text-decoration: underline;">Entrar al servidor</a></p>
-        </div>
-
-        <h3>Etiquetas</h3>
-        <div class="tags">
-            <span>Comics</span>
-            <span>XXX</span>
-            <span>Dragon Ball</span>
-            <span>Full Color</span>
-            <span>3D</span>
-            <span>Hentai</span>
-        </div>
-    </div>
 
     <!-- Header -->
     <header class="bg-[#7b2cbf] text-white shadow-lg">
         <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-center items-center">
-                <h1 class="text-3xl font-bold">MY.COMICS.XXX</h1>
+            <div class="flex justify-between items-center">
                 <div class="hidden md:flex">
                     <a href="#" class="bg-gradient-to-r from-[#7b2cbf] to-[#9d4edd] hover:from-[#9d4edd] hover:to-[#ff6b6b] px-4 py-2 rounded-lg font-medium transition text-white">Mi Cuenta</a>
                 </div>
+                <h1 class="text-3xl font-bold">MY.COMICS.XXX</h1>
                 <div class="md:hidden">
                     <button id="mobile-menu-button" class="text-white focus:outline-none">
                         <i class="fas fa-bars text-2xl"></i>
@@ -159,7 +87,7 @@
                 </div>
             </div>
         </div>
-        
+                
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden bg-blue-800 md:hidden">
             <div class="container mx-auto px-4 py-2 flex flex-col space-y-2">
@@ -171,7 +99,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8 mr-52"> <!-- Adjusted margin for smaller sidebar -->
+    <main class="container mx-auto px-4 py-8">
         <!-- Ad Space Top -->
         <div class="bg-gray-800 p-4 rounded-lg mb-8 text-center h-32 flex items-center justify-center">
             <p class="text-gray-400">Advertisement Space</p>
@@ -260,7 +188,12 @@
     <!-- Footer -->
     <footer class="bg-[#240046] text-white py-8">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="discord-box">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="Discord">
+                    <p><strong>¡Únete a la comunidad!</strong></p>
+                    <p><a href="#" style="color: white; text-decoration: underline;">Entrar al servidor</a></p>
+                </div>
                 <div>
                     <h3 class="text-xl font-bold mb-4">MY.COMICS.XXX</h3>
                     <p class="text-blue-200">La mejor colección de cómics adultos en línea. Disfruta de nuestra selección de contenido de alta calidad.</p>
@@ -321,7 +254,7 @@
         function generateComicCards(category, containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
-            
+                        
             comicsData[category].forEach(comic => {
                 const card = document.createElement('div');
                 card.className = 'comic-card bg-white rounded-lg overflow-hidden shadow-md relative';
@@ -348,16 +281,16 @@
             document.querySelectorAll('.comics-category').forEach(el => {
                 el.classList.add('hidden');
             });
-            
+                        
             // Show selected category
             document.getElementById(`${category}-comics`).classList.remove('hidden');
-            
+                        
             // Update active tab
             document.querySelectorAll('.category-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             document.querySelector(`.category-tab[data-category="${category}"]`).classList.add('active');
-            
+                        
             // Update category title
             const titles = {
                 'home': 'General',
@@ -365,7 +298,7 @@
                 'taboo': 'Taboo'
             };
             document.getElementById('category-title').textContent = titles[category];
-            
+                        
             // Update URL hash
             window.location.hash = category;
         }
@@ -381,7 +314,7 @@
                 e.preventDefault();
                 const category = this.getAttribute('data-category');
                 switchCategory(category);
-                
+                                
                 // Close mobile menu if open
                 document.getElementById('mobile-menu').classList.add('hidden');
             });
@@ -408,7 +341,7 @@
         // Check URL hash on load
         window.addEventListener('DOMContentLoaded', function() {
             initializeComics();
-            
+                        
             const hash = window.location.hash.substring(1);
             if (['home', 'furry', 'taboo'].includes(hash)) {
                 switchCategory(hash);
